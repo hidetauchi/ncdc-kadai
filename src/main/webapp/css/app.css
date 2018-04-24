@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+html, body {
+	font-family: "Hiragino Kaku Gothic ProN","メイリオ", sans-serif !important;
+	color: #8e8e8e;
+	height: 100vh;
+}
+
+a, input {
+	color: inherit !important;
+}
+a:hover {
+	color: inherit !important;
+}
+
+.btn {
+	min-height: 60%;
+	color: inherit;
+	border-color: #8e8e8e;
+}
+.btn:hover {
+	color: inherit;
+	background-color: #eeeeee;
+}
+
+.dropdown-item {
+	color: #8e8e8e !important;
+}
+.dropdown-item:hover {
+	color: #8e8e8e !important;
+	background-color: #eeeeee !important;
+}
+
+.fsl { font-size: 2.0rem !important; }
+.fsm { font-size: 1.4rem !important; }
+.fss { font-size: 1.0rem !important; }
+
+.bold { font-weight: bold; }
+
+.h90 { height: 90% !important; }
+
+.w70 { width: 70% !important; }
+.w90 { width: 90% !important; }
+.w95 { width: 95% !important; }
+
+.ml-10 { margin-left: 10px !important; }
+.ml-30 { margin-left: 30px !important; }
+.ml-50 { margin-left: 50px !important; }
+
+.vh100 {
+	height: 100vh !important;
+}
+
+.tac {
+	text-align: center;
+}
+
+.scrollable {
+	overflow-y: scroll;
+}
+
+.hide {
+	display: none;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #eeeeee;
+}
+
+#editPage {
+	height: 100vh;
+	margin-top: -85px;
+	padding-top: 85px;
+	margin-bottom: 85px;
+}

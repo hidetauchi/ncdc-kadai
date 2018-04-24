@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.PageDao">
+
+	<select id="selectAll" resultType="Page">
+		select * from page
+		 order by parent_id, id
+	</select>
+
+	<select id="selectByPrimaryKey" resultType="Page">
+		select * from page where id = #{id}
+	</select>
+
+	<insert id="insert" parameterType="Page" useGeneratedKeys="true" keyProperty="id">
+		insert into page
+		(
+			parent_id
+			,level
+			,title
+			,content
+		)
+		values
+		(
+			#{parentId}
+			,#{level}
+			,#{title}
+			,#{content}
+		)
+	</insert>
+
+	<update id="update" parameterType="Page">
+		update page
+		set
+			title = #{title}
+			,content = #{content}
+		where
+			id = #{id}
+	</update>
+
+</mapper>
