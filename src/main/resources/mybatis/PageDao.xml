@@ -5,8 +5,19 @@
 <mapper namespace="mybatis.PageDao">
 
 	<select id="selectAll" resultType="Page">
-		select * from page
-		 order by parent_id, id
+		select p.*
+		  from page p
+		  left join (select id, id as lv1_id, 0 as lv2_id, 0 as lv3_id from page where level = 1
+		             union
+		             select id, parent_id as lv1_id, id as lv2_id, 0 as lv3_id from page where level = 2
+		             union
+		             select p3.id, p3p.parent_id as lv1_id, p3p.id as lv2_id, p3.id as lv3_id
+		               from page p3
+		               left join page p3p
+		                 on p3p.id = p3.parent_id
+		               where p3.level = 3) plv
+		    on plv.id = p.id
+		 order by plv.lv1_id, plv.lv2_id, plv.lv3_id
 	</select>
 
 	<select id="selectByPrimaryKey" resultType="Page">
