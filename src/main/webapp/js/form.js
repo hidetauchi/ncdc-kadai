@@ -1,7 +1,7 @@
 class PageView extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {data: []};
+		this.getPageFromServer = this.getPageFromServer.bind(this);
 		this.onClickEdit = this.onClickEdit.bind(this);
 	}
 	getPageFromServer() {
@@ -15,36 +15,40 @@ class PageView extends React.Component {
 			cache: false,
 			async: false,
 			success: function(data) {
-				this.setState({data: data});
+				this.props.id = data.id;
+				this.props.title = data.title;
+				this.props.content = data.content;
 			}.bind(this),
 			error: function(xhr, status, err) {
 				console.error(this.props.url, status, err.toString());
 			}.bind(this)
 		});
 	}
-	componentDidMount() {
-		this.getPageFromServer();
-	}
 	onClickEdit() {
 		ReactDOM.render(
-			<PageForm id={this.state.data.id} />,
+			<PageForm id={this.props.id} />,
 			document.getElementById('formDiv')
 		);
 	}
 	render() {
+		this.getPageFromServer();
+		var markedContent = '';
+		if (this.props.content) {
+			markedContent = marked(this.props.content);
+		}
 		return (
 			<form id="editPage" className="container-fluid">
 				<div className="row px-5 py-3">
 					<div className="col-md-9 col-lg-10">
-						<span id="title" className="w90 fsl bold">{this.state.data.title}</span>
+						<span id="title" className="w90 fsl bold">{this.props.title}</span>
 					</div>
 					<div className="col-md-3 col-lg-2 pt-3">
 						<a href="javascript:void(0);" onClick={this.onClickEdit} className="btn fss bold">Edit</a>
 					</div>
 				</div>
 				<div className="row px-5 py-3 h90 scrollable">
-					<div className="col-md-12 col-lg-12 h90 w95">
-						{this.state.data.content}
+					<div id="content" className="col-md-12 col-lg-12 h90 w95">
+						{markedContent}
 					</div>
 				</div>
 			</form>
