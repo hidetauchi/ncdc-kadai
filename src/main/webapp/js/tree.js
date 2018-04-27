@@ -22,6 +22,10 @@ class TreeNode extends React.Component {
 			async: false,
 			success: function(data) {
 				this.setState({data: data});
+				ReactDOM.render(
+					<TreeView pollInterval={300000} />,
+					document.getElementById('treeDiv')
+				);
 			}.bind(this),
 			error: function(xhr, status, err) {
 				console.error(this.props.url, status, err.toString());
@@ -30,29 +34,22 @@ class TreeNode extends React.Component {
 	}
 	onClickTitle() {
 		ReactDOM.render(
-			<PageView id={this.props.id} />,
+			<PageView pageId={this.props.id} />,
 			document.getElementById('formDiv')
 		);
 	}
 	onClickAddBrother() {
-		this.createNode(this.props.parentId, this.props.level, 'Title');
-		ReactDOM.render(
-			<TreeView pollInterval={300000} />,
-			document.getElementById('treeDiv')
-		);
+		this.createNode(this.props.parentId, this.props.level, 'Title of the page');
 	}
 	onClickAddChild() {
-		this.createNode(this.props.id, this.props.level + 1, 'Title');
-		ReactDOM.render(
-			<TreeView pollInterval={300000} />,
-			document.getElementById('treeDiv')
-		);
+		this.createNode(this.props.id, this.props.level + 1, 'Title of the page');
 	}
 	render() {
 		var level = this.props.level;
 		if (level == 3) {
 			return (
 				<div className="row my-2">
+					<input type="hidden" className="pageId" value={this.props.id} />
 					<div className="col-md-8 col-lg-9 pl-0">
 						<a href="javascript:void(0);" onClick={this.onClickTitle} className="ml-50 fss">{this.props.title}</a>
 					</div>
@@ -63,6 +60,7 @@ class TreeNode extends React.Component {
 		} else if (level == 2) {
 			return (
 				<div className="row my-2">
+					<input type="hidden" className="pageId" value={this.props.id} />
 					<div className="col-md-8 col-lg-9 pl-0">
 						<a href="javascript:void(0);" onClick={this.onClickTitle} className="ml-30 fss">{this.props.title}</a>
 					</div>
@@ -79,6 +77,7 @@ class TreeNode extends React.Component {
 		} else {
 			return (
 				<div className="row my-3">
+					<input type="hidden" className="pageId" value={this.props.id} />
 					<div className="col-md-8 col-lg-9 pl-0">
 						<a href="javascript:void(0);" onClick={this.onClickTitle} className="ml-10 fsm bold">{this.props.title}</a>
 					</div>
@@ -104,7 +103,7 @@ class TreeView extends React.Component {
 		this.getAllNodesFromServer();
 		setInterval(this.getAllNodesFromServer, this.props.pollInterval);
 		ReactDOM.render(
-			<PageView id={1} />,
+			<PageView pageId={1} />,
 			document.getElementById('formDiv')
 		);
 	}

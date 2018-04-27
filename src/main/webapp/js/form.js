@@ -11,11 +11,11 @@ class PageView extends React.Component {
 			contentType: 'application/json; charset=utf-8',
 			mimeType: 'application/json',
 			dataType: 'json',
-			data: JSON.stringify({ id: this.props.id }),
+			data: JSON.stringify({ id: this.props.pageId }),
 			cache: false,
 			async: false,
 			success: function(data) {
-				this.props.id = data.id;
+				this.props.pageId = data.id;
 				this.props.title = data.title;
 				this.props.content = data.content;
 			}.bind(this),
@@ -26,7 +26,7 @@ class PageView extends React.Component {
 	}
 	onClickEdit() {
 		ReactDOM.render(
-			<PageForm id={this.props.id} />,
+			<PageForm pageId={this.props.pageId} />,
 			document.getElementById('formDiv')
 		);
 	}
@@ -36,6 +36,14 @@ class PageView extends React.Component {
 		if (this.props.content) {
 			markedContent = marked(this.props.content);
 		}
+		var selectedId = this.props.pageId;
+		$('.pageId', '#treeDiv').each(function() {
+			if ($(this).val() == selectedId) {
+				$(this).closest('div').css('border', 'solid 2px #cccccc');
+			} else {
+				$(this).closest('div').css('border', 'none');
+			}
+		});
 		return (
 			<form id="editPage" className="container-fluid">
 				<div className="row px-5 py-3">
@@ -71,7 +79,7 @@ class PageForm extends React.Component {
 			contentType: 'application/json; charset=utf-8',
 			mimeType: 'application/json',
 			dataType: 'json',
-			data: JSON.stringify({ id: this.props.id }),
+			data: JSON.stringify({ id: this.props.pageId }),
 			cache: false,
 			async: false,
 			success: function(data) {
@@ -126,7 +134,7 @@ class PageForm extends React.Component {
 	onClickSave() {
 		this.updatePage();
 		ReactDOM.render(
-			<PageView id={this.props.id} />,
+			<PageView id={this.props.pageId} />,
 			document.getElementById('formDiv')
 		);
 	}
